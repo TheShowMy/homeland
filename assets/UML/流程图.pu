@@ -1,0 +1,38 @@
+@startuml 战斗逻辑
+title emm
+package "额" 
+start
+:进入游戏显示主界面;
+:获取所有继承自角色基类的actor;
+:取行动值进行排序(规则待定);
+:int 回合数=1;
+:int 当前操作角色;
+repeat
+    :当前操作角色 = 取角色数组个数 % 回合数;
+    :设置当前操作中角色为
+    角色数组取下标为(**当前操作角色**)的成员;
+if(当前操作中角) then (角色)
+    :设置玩家操作(攻击结束or倒计时结束);
+    if(怪物是否全部死亡?) then (yes)
+        :游戏胜利;
+        :结算奖励;
+        :退出关卡;
+        break
+    else(no)
+    endif
+else 
+    :设置怪物AI操作(挑选目标玩家进行攻击);
+    if(角色是否全部死亡?) then (yes)
+        :游戏失败;
+        :结算奖励;
+        :退出关卡;
+        end
+    else(no)
+    endif
+endif
+
+repeat while(进入下一回合)
+
+end
+
+@enduml
