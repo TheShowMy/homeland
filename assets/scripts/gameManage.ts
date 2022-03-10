@@ -1,8 +1,25 @@
 
-import { _decorator, Component, Node, assetManager, Sprite, SpriteAtlas, instantiate, Prefab, Button, EventHandler } from 'cc';
+import { _decorator, Component, Node, assetManager, Sprite, SpriteAtlas, instantiate, Prefab, Button, EventHandler, LabelComponent, Label } from 'cc';
 import { Constant } from './Constant';
 const { ccclass, property } = _decorator;
+var worlds = [
+    {
+        name: "斗弹世界",
+        map: "ddt",
+        choose: 1,
 
+    },
+    {
+        name: "像素世界",
+        map: "minecraft",
+        choose: 2,
+    },
+    {
+        name: "原魔",
+        map: "minecraft2",
+        choose: 3,
+    },
+];
 @ccclass('gameManage')
 export class gameManage extends Component {
 
@@ -17,6 +34,9 @@ export class gameManage extends Component {
     */
     @property(Node)
     public optionalWorldUi = null;
+
+    @property(Node)
+    public messageUi = null;
 
     public worldListChoose: number
      /**----------------------------------------------------------------------------- */
@@ -35,7 +55,15 @@ export class gameManage extends Component {
         this.worldListChoose = 1;
     }
 
-
+    update(){
+        for (let world of worlds){
+            if (world.choose === this.worldListChoose) {
+                this.optionalWorldUi.children[1].getComponent(Label).string ="当前选择的世界:" + world.name
+            }
+            
+        }
+        
+    }
 
     /** -----------------------------这里是UI相关的操作-------------------------------*/
 
@@ -46,6 +74,9 @@ export class gameManage extends Component {
                 break;
             case Constant.UI.OptionalWorldUi:
                 this.optionalWorldUi.active = isOpen;
+                break;
+            case Constant.UI.messageUi:
+            this.messageUi.active = isOpen;
                 break;
             default:
                 break;

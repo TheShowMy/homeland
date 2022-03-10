@@ -16,7 +16,7 @@ var worlds = [
         choose: 2,
     },
     {
-        name: "像素世界2",
+        name: "原魔",
         map: "minecraft2",
         choose: 3,
     },

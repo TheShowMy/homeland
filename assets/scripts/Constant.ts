@@ -15,6 +15,11 @@ export class Constant{
          * 选择世界界面UI
          */
         OptionalWorldUi:"OptionalWorldUi",
+
+        /**
+         * 消息ui
+         */
+        messageUi:"messageUi",
     }
 }
 
