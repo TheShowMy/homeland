@@ -29,7 +29,7 @@ export class ButtonScripts extends Component {
 
         if (this.gameManage.worldListChoose === 1) {
             setTimeout(() => {
-                director.preloadScene("ddt", () => {
+                director.preloadScene("ddt", (err, scene) => {
                     director.loadScene("ddt");
                 });
             }, 10);

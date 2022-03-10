@@ -1,6 +1,7 @@
 
 import { _decorator, Component, Node, assetManager, Sprite, SpriteAtlas, instantiate, Prefab, Button, EventHandler, LabelComponent, Label } from 'cc';
 import { Constant } from './Constant';
+import { CsvManage } from './CsvManage';
 const { ccclass, property } = _decorator;
 var worlds = [
     {
@@ -44,6 +45,8 @@ export class gameManage extends Component {
 
      /** ------------------------------函数入口已经一些公共方法----------------------- */
     start () {
+        
+        
         this._init()
     }
 
@@ -62,7 +65,8 @@ export class gameManage extends Component {
             }
             
         }
-        
+        CsvManage.getInstance().emm = 2;
+        console.log( "----" + CsvManage.getInstance().emm);
     }
 
     /** -----------------------------这里是UI相关的操作-------------------------------*/

@@ -8,7 +8,6 @@ var worlds = [
         name: "斗弹世界",
         map: "ddt",
         choose: 1,
-
     },
     {
         name: "像素世界",
