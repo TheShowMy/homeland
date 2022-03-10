@@ -5,6 +5,8 @@ const { ccclass, property } = _decorator;
 
 const ANGLEMAX = 70;
 const ANGLEMIN = 20;
+
+
 @ccclass('PveGameManage')
 export class PveGameManage extends Component {
 
@@ -24,7 +26,7 @@ export class PveGameManage extends Component {
     public angleDown: Node = null;
     @property(Node)
     public rams: Node = null;
-    @property(Number)
+    @property()
     public AngleSpeed = 2;
     public isAngle = false;
     public AngleVal = 0;
@@ -68,6 +70,8 @@ export class PveGameManage extends Component {
 
         }
 
+
+
     }
 
     public fire() {
@@ -89,23 +93,23 @@ export class PveGameManage extends Component {
         bullet.getComponent(RigidBody2D).sleep();
         bullet.getComponent(RigidBody2D).applyLinearImpulse(new Vec2(x, y), new Vec2(bullet.getWorldPosition().x, bullet.getWorldPosition().y), true);
 
-        let XY1 = new Vec2(bullet.position.x, bullet.position.y);
-        let XY2 = XY1;
-        let r = 0;
-        this.schedule(() => {
-            let angle
+        // let XY1 = new Vec2(bullet.position.x, bullet.position.y);
+        // let XY2 = XY1;
+        // let r = 0;
+        // this.schedule(() => {
+        //     let angle
 
-            if (XY1.x > XY2.x) {
-                angle = Math.atan2(XY2.x - XY1.x, XY1.y - XY2.y) * (180 / Math.PI);
-            } else {
-                angle = Math.atan2(XY1.x - XY2.x, XY1.y - XY2.y) * (180 / Math.PI);
-            }
+        //     if (XY1.x > XY2.x) {
+        //         angle = Math.atan2(XY2.x - XY1.x, XY1.y - XY2.y) * (180 / Math.PI);
+        //     } else {
+        //         angle = Math.atan2(XY1.x - XY2.x, XY1.y - XY2.y) * (180 / Math.PI);
+        //     }
 
-            XY1 = new Vec2(bullet.position.x, bullet.position.y);
-            //*(180/Math.PI); 
-            bullet.angle = angle;
+        //     XY1 = new Vec2(bullet.position.x, bullet.position.y);
+        //     //*(180/Math.PI); 
+        //     bullet.angle = angle;
 
-        }, 0.01)
+        // }, 0.01)
     }
     public getForce() {
         return this.powerBut02.getComponent(Sprite).fillRange;
