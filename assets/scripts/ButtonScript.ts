@@ -26,7 +26,15 @@ export class ButtonScripts extends Component {
      * 世界选择界面-确认按钮
      */
     public optionalWorldFixButton(){
+        
+        if (this.gameManage.worldListChoose === 1) {
+            
+        }else{
+            
+        }
         this.gameManage.setUi(Constant.UI.OptionalWorldUi,false)
+
+
     }
     /**
      * 世界选择界面-取消按钮

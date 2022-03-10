@@ -48,7 +48,6 @@ export class gameManage extends Component {
                 this.optionalWorldUi.active = isOpen;
                 break;
             default:
-                return;
                 break;
         }
     }
