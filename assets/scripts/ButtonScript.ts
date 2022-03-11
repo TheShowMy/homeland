@@ -35,7 +35,6 @@ export class ButtonScripts extends Component {
             }, 10);
         } else {
             this.gameManage.setUi(Constant.UI.messageUi, true);
-
         }
         this.gameManage.setUi(Constant.UI.OptionalWorldUi, false);
 
@@ -60,6 +59,7 @@ export class ButtonScripts extends Component {
     public messageUiCancelButton() {
         this.gameManage.setUi(Constant.UI.messageUi, false);
     }
+
 
 }
 
