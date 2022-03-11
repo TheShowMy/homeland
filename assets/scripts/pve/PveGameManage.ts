@@ -1,5 +1,5 @@
 
-import { _decorator, Component, Node, Sprite, Quat, Prefab, instantiate, RigidBody2D, Vec2 } from 'cc';
+import { _decorator, Component, Node, Sprite, Quat, Prefab, instantiate, RigidBody2D, Vec2, Label } from 'cc';
 import { buttetScript } from './buttetScript';
 const { ccclass, property } = _decorator;
 
@@ -30,6 +30,13 @@ export class PveGameManage extends Component {
     public AngleSpeed = 2;
     public isAngle = false;
     public AngleVal = 0;
+
+    @property(Node)
+    public showAngle = null;
+    @property(Node)
+    public angletip = null;
+    @property(Node)
+    public angleLabel = null;
     //-------------------------------上面是angln角度调整相关节点和变量 
 
     @property(Prefab)
@@ -69,6 +76,8 @@ export class PveGameManage extends Component {
             this.rams.angle += this.AngleVal * deltaTime * this.AngleSpeed;
 
         }
+        this.angletip.angle = this.rams.angle;
+        this.angleLabel.getComponent(Label).string = "" + this.rams.angle.toFixed();
 
 
 

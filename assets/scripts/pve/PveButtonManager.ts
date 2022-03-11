@@ -1,5 +1,5 @@
 
-import { _decorator, Component, Node } from 'cc';
+import { _decorator, Component, Node, director } from 'cc';
 const { ccclass, property } = _decorator;
 
 
@@ -10,6 +10,15 @@ export class PveButtonManager extends Component {
 
     power(){
         
+    }
+ 
+ 
+    public cancelButton(){
+        setTimeout(() => {
+            director.preloadScene("scene", (err, scene) => {
+                director.loadScene("scene");
+            });
+        }, 10);
     }
 
 }
