@@ -1,0 +1,47 @@
+@startuml TNT
+skinparam groupInheritance 4
+title 家园游戏框架图
+package "管理类"
+{
+    entity GameManage<<游戏管理类>>
+    {
+        实现单例
+        游戏相关的逻辑在这里处理
+    }
+
+    entity ViewManage<<视图管理类>>
+    {
+        实现单例
+        UI的显示和相关逻辑
+    }
+    entity ScvManage<<配置管理类>>
+    {
+        实现单例
+        读取游戏Scv配置文件
+    }
+
+}
+package "主要节点脚本"
+{
+    
+    class gameManage
+    {
+        挂载在gameManage常驻节点上
+        实例第一个GameManage
+    }
+    class viewManage
+    {
+        挂载在viewManage常驻节点上
+        实例第一个ViewManage
+    }
+    class scvManage
+    {
+        挂载在scvManage常驻节点上
+        实例第一个ScvManage
+    }
+
+
+}
+
+
+@enduml
