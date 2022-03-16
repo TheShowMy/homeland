@@ -9,7 +9,9 @@ const { ccclass, property } = _decorator;
 @ccclass('GameManage')
 export class GameManage {
     private static instance: GameManage;
-    private constructor() { };
+    private constructor() {
+        
+     };
     static getInstance() {
         if (!this.instance) {
             this.instance = new GameManage();
@@ -17,6 +19,5 @@ export class GameManage {
         }
         return this.instance;
     }
-
 }
 

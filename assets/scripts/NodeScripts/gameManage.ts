@@ -1,20 +1,28 @@
 
-import { _decorator, Component, Node, Game } from 'cc';
+import { _decorator, Component,  game, EventTarget } from 'cc';
+import { EventManage } from '../Manage/EventManage';
 import { GameManage } from '../Manage/GameManage';
+import { ScvManage } from "../Manage/CsvManage"
+import { viewManage } from './viewManage';
 const { ccclass, property } = _decorator;
 
- 
+const eventTarget = new EventTarget();
 @ccclass('gameManage')
 export class gameManage extends Component {
-
-     gameManageInstance:GameManage = GameManage.getInstance();
-    start () {
+    scvManage:ScvManage = ScvManage.getInstance()
+    gameManageInstance:GameManage = GameManage.getInstance();
+    eventManage:EventManage = EventManage.getInstance();
+    view = new viewManage();
+    onLoad(){
+        game.addPersistRootNode(this.node)
         
     }
+
+    start () {
+        //this.view.offLoadingUi(true);
+        this.scvManage.startLoad();
+    }
     
-    // update (deltaTime: number) {
-    //     // [4]
-    // }
 
 }
 

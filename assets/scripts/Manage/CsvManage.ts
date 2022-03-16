@@ -1,20 +1,24 @@
 
-import { _decorator, Component, Node, resources, color } from 'cc';
+import { _decorator,  resources ,EventTarget} from 'cc';
+import { Constant } from './Constant';
+import { EventManage } from './EventManage';
 const { ccclass, property } = _decorator;
 
 /**
  * 配置csv文件读取并管理
  */
+const eventManage:EventManage = EventManage.getInstance();
 @ccclass('CsvManage')
 export class ScvManage {
+    
     private tableNames: string[] = [];
     private tableDatas: string[] = [];
 
     private static instance: ScvManage;
     private constructor() {
-        //初始化
-        this.loadCsvData();
+
     };
+
     static getInstance() {
         if (!this.instance) {
             this.instance = new ScvManage();
@@ -22,6 +26,18 @@ export class ScvManage {
         }
         return this.instance;
     }
+
+    public startLoad(){
+        //初始化
+        this.loadCsvData().then((res) => {
+            if (res) {
+                
+                eventManage.emitEvent(Constant.eventType.RES_LOAD_END)
+            }
+        });
+    }
+
+
     /**
      * 获取指定路径下的所有文件,返回文件列表
      * @param path 需要获取的路径
@@ -42,110 +58,127 @@ export class ScvManage {
 
         //获取resources\csv目录下的所有文件
         const ScvPaths = this.getScvPath("csv");
-        let tableName;
-        let tableData;
-        let promiseArr = [];
-        let loadData = [];
+        let tableName = [];
+        let tableData = [];
         //感觉文件名获取文件里的文本数据
-        for (let index = 0 ;index<ScvPaths.length;index++) {
-            let promise = new Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => {
+            for (let index = 0; index < ScvPaths.length; index++) {
                 resources.load(ScvPaths[index], (err, ScvData) => {
                     if (err) {
-                        reject(err);
+                        console.log("读取csv文件报错:" + err);
                         return;
                     }
-                    resolve({
-                        path:ScvPaths[index],
-                        data:ScvData,
-                    });
+
+                    //将表名和数据分别存放到两个数值中
+                    tableName.push(ScvPaths[index].split("/", 2)[1]);
+                    tableData.push(ScvData["text"]);
+                    if (index === ScvPaths.length - 1) {
+                        this.tableNames = tableName;
+                        this.tableDatas = tableData;
+                        resolve(true)
+                    }
                 });
-            });
-            promiseArr.push({
-                index:index,
-                promise:promise,
-            });
-        }
-        let promiseIndex = 0;
-        for(let promiseInfo of promiseArr){
-            promiseInfo.promise.then((info)=>{
-                promiseIndex++;
-                loadData.push({
-                    name:info.path.split("/", 2)[1],
-                    data:info.data["text"],
-                });
-                if(promiseIndex == promiseArr.length){
-                    console.log(`所有操作完毕`);
-                    
-                }
-            },(err)=>{
-                promiseIndex++;
-                console.log(`加载${promiseInfo.index}号文件失败`,err);
-                if(promiseIndex == promiseArr.length){
-                    console.log(`所有操作完毕`);
-                }
-            });
-        }
+            }
+
+
+        });
     }
 
-    public test(){
-        console.log(this.tableDatas);
-        console.log(this.tableDatas[0]);
-        
-    }
+
 
     /**
      * 通过表名获取指定配置表数据
      * @param tableName 表名
-     * @returns 返回表里的所有数据,Strin类型,不存在该表返回null
+     * @returns 返回表里的所有数据strin[]类型,不存在该表返回null
      */
     public getCsvDataAll(tableName: string): string {
+
 
         for (let i = 0; i < this.tableNames.length; i++) {
             if (this.tableNames[i] === tableName) {
                 return this.tableDatas[i];
-            } else {
-                return null;
             }
         }
-
+        return null;
     }
     /**
      * 获取指定配置表的指定行
      * @param tableName 表名
      * @param list 第几行 1-max
-     * @returns 返回指定行的数据:strin 表名或者行数不存在时 返回null
+     * @returns 返回指定行的数据:strin[]类型 表名或者行数不存在时 返回null
      */
-    public getCsvDataList(tableName: string, list: number) {
+    public getCsvDataList(tableName: string, list: number): string[] {
         const data: string = this.getCsvDataAll(tableName);
         if (data != null && list != 0) {
             let dataLists = data.split("\n");
             if (dataLists.length < list) {
                 return null;
             }
-            return dataLists[list - 1];
+            return dataLists[list - 1].split(",");
 
         } else {
             return null;
         }
 
     }
-    public getCsvDataRow(tableName: string, row: number) {
+    /**
+     * 获取指定配置表的指定列
+     * @param tableName 表名
+     * @param row  指定列数
+     * @returns 返回指定列的数据: string[]类型
+     */
+    public getCsvDataRow(tableName: string, row: number): string[] {
         const data: string = this.getCsvDataAll(tableName);
+
         if (data != null && row != 0) {
             let dataLists = data.split("\n");
             if (dataLists[0].split(",").length < row) {
                 return null;
             }
-
+            let dataRowList = [];
+            for (const datalist of dataLists) {
+                dataRowList.push(datalist.split(",")[row - 1])
+            }
+            return dataRowList;
         } else {
             return null;
         }
     }
-    public inquireCsvDataList(tableName: string, row: number, rowValue: string) {
-
+    /**
+     * 
+     * @param tableName 
+     * @param row 
+     * @param rowValue 
+     * @returns 
+     */
+    public inquireCsvDataList(tableName: string, row: number, rowValue: string): string[] {
+        const tableRowList = this.getCsvDataRow(tableName, row);
+        if (tableRowList === null) {
+            return null;
+        }
+        for (let index = 0; index < tableRowList.length; index++) {
+            if (tableRowList[index] === rowValue) {
+                return this.getCsvDataList(tableName, index + 1);
+            }
+        }
+        return null;
     }
-    public inquireCsvDataListRow(tableName: string, row: number, rowValue: string, whichColumn: number) {
+    public inquireCsvDataListRow(tableName: string, row: number, rowValue: string, whichColumn: number): string {
 
+        const tableList = this.inquireCsvDataList(tableName, row, rowValue)
+        if (tableList === null) {
+            return null;
+        }
+        for (let index = 0; index < tableList.length; index++) {
+            if (tableList.length < whichColumn) {
+                return null;
+            }
+            if (index === whichColumn - 1) {
+                return tableList[index];
+            }
+
+        }
+        return null
     }
 
 }
