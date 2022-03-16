@@ -13,7 +13,7 @@ export class ScvManage {
     private static instance: ScvManage;
     private constructor() {
         //初始化
-        this.loadCsvData(this.emm.bind(this));
+        this.loadCsvData();
     };
     static getInstance() {
         if (!this.instance) {
@@ -38,33 +38,59 @@ export class ScvManage {
     /**
      * 将每个csv文件 通过[表名:数据]键值对的方法存储
      */
-    private loadCsvData(cb: Function) {
+    private loadCsvData() {
 
         //获取resources\csv目录下的所有文件
         const ScvPaths = this.getScvPath("csv");
-        let a;
-        let b;
+        let tableName;
+        let tableData;
+        let promiseArr = [];
+        let loadData = [];
         //感觉文件名获取文件里的文本数据
-        for (const ScvPath of ScvPaths) {
-            const e = resources.load(ScvPath, (err, ScvData) => {
-                if (err) {
-                    console.log("读取csv文件报错:" + err);
-                    return;
+        for (let index = 0 ;index<ScvPaths.length;index++) {
+            let promise = new Promise((resolve, reject) => {
+                resources.load(ScvPaths[index], (err, ScvData) => {
+                    if (err) {
+                        reject(err);
+                        return;
+                    }
+                    resolve({
+                        path:ScvPaths[index],
+                        data:ScvData,
+                    });
+                });
+            });
+            promiseArr.push({
+                index:index,
+                promise:promise,
+            });
+        }
+        let promiseIndex = 0;
+        for(let promiseInfo of promiseArr){
+            promiseInfo.promise.then((info)=>{
+                promiseIndex++;
+                loadData.push({
+                    name:info.path.split("/", 2)[1],
+                    data:info.data["text"],
+                });
+                if(promiseIndex == promiseArr.length){
+                    console.log(`所有操作完毕`);
+                    
                 }
-
-                //将表名和数据分别存放到两个数值中
-                a = ScvPath.split("/", 2)[1];
-                b = ScvData["text"];
-                cb(a, b);
+            },(err)=>{
+                promiseIndex++;
+                console.log(`加载${promiseInfo.index}号文件失败`,err);
+                if(promiseIndex == promiseArr.length){
+                    console.log(`所有操作完毕`);
+                }
             });
         }
     }
 
-    emm(tableName:string, tableData:string) {
-        this.tableNames.push(tableName)
-        this.tableDatas.push(tableData)
+    public test(){
         console.log(this.tableDatas);
         console.log(this.tableDatas[0]);
+        
     }
 
     /**

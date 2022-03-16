@@ -12,7 +12,7 @@ export class scvManage extends Component {
 
     start () {
        
-       //this.scvManageInstance.getCsvDataAll("worldList");
+       this.scvManageInstance.test();
        
 
     }
