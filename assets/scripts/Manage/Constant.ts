@@ -5,12 +5,9 @@ const { ccclass, property } = _decorator;
      * 事件类型枚举
      */
 export class MessageType {
-    /**
-     * 视图消息
-     */
-    public static Type_view = 1;
-    public static Type_game = 2;
-    public static Type_csv = 3;
+    public static Type_view = 1;                //视图类消息
+    public static Type_game = 2;                //游戏逻辑类消息
+    public static Type_csv = 3;                 //
 
     public static View_loading = 101;
 

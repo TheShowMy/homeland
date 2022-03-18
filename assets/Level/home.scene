@@ -475,7 +475,7 @@
     "_originalWidth": 200,
     "_originalHeight": 200,
     "_alignMode": 2,
-    "_lockFlags": 0,
+    "_lockFlags": 45,
     "_id": "c1sfTyEEBAP4vE/JCHMwDW"
   },
   {
@@ -710,7 +710,7 @@
       "a": 255
     },
     "_spriteFrame": {
-      "__uuid__": "1251e0d1-8ded-494d-9b0e-8e095e46fdc9@f9941",
+      "__uuid__": "77df4790-5bd4-40ab-bef5-bddbc9930b10@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_type": 0,

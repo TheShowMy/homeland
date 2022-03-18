@@ -29,9 +29,7 @@ export class ScvManage {
         //初始化    
         this.loadCsvData().then((res) => {
             if (res) {
-                console.log("scv 加载完成 通知loading界面关闭");
                 MessageCenter.SendCustomMessage(MessageType.Type_view,MessageType.View_loading,false);
-  
             }
         });
     }
@@ -88,7 +86,7 @@ export class ScvManage {
     /**
      * 通过表名获取指定配置表数据
      * @param tableName 表名
-     * @returns 返回表里的所有数据strin[]类型,不存在该表返回null
+     * @returns 返回表里的所有数据strin类型,不存在该表返回null
      */
     public getCsvDataAll(tableName: string): string {
 
@@ -144,7 +142,7 @@ export class ScvManage {
         }
     }
     /**
-     * 
+     * 查询指定表指定列 满足条件的行
      * @param tableName 
      * @param row 
      * @param rowValue 
@@ -162,6 +160,14 @@ export class ScvManage {
         }
         return null;
     }
+    /**
+     * 查询指定表指定列 满足条件的行的指定元素
+     * @param tableName 
+     * @param row 
+     * @param rowValue 
+     * @param whichColumn 
+     * @returns 
+     */
     public inquireCsvDataListRow(tableName: string, row: number, rowValue: string, whichColumn: number): string {
 
         const tableList = this.inquireCsvDataList(tableName, row, rowValue)

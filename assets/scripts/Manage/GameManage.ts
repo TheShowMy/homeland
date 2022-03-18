@@ -4,7 +4,6 @@ import { MessageType } from './Constant';
 import { ScvManage } from './CsvManage';
 import { ManageBase } from './ManageBase';
 import { Message } from './Message';
-import { MessageCenter } from './MessageCenter';
 const { ccclass, property } = _decorator;
 
 /**
@@ -15,10 +14,6 @@ const { ccclass, property } = _decorator;
 export class GameManage extends ManageBase {
     private static instance: GameManage;
     public static getInstance() {
-        if (!this.instance) {
-            this.instance = new GameManage();
-            return this.instance;
-        }
         return this.instance;
     }
     private constructor() {
@@ -27,6 +22,7 @@ export class GameManage extends ManageBase {
 
     onLoad(){
         super.onLoad();
+        GameManage.instance = this;
  
     }
     setMessageType(){
@@ -41,9 +37,7 @@ export class GameManage extends ManageBase {
         if(MessageType.Type_game != message.Command){
             return;
         }
-        console.log("gameManage收到消息",message);
         if (message.Content === "loadEnd") {
-            console.log("scvManage开始加载配置文件");
             ScvManage.getInstance().startLoad();
         }
         

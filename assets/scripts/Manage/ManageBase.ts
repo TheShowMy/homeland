@@ -2,6 +2,7 @@
 import { _decorator, Component, Node } from 'cc';
 import { ComponentBase } from './ComponentBase';
 import { MessageType } from './Constant';
+import { ScvManage } from './CsvManage';
 import { Message } from './Message';
 import { MessageCenter } from './MessageCenter';
 const { ccclass, property } = _decorator;
@@ -11,7 +12,7 @@ const { ccclass, property } = _decorator;
 @ccclass('ManageBase')
 export class ManageBase extends ComponentBase {
     /**
-     * 已注册消息监听的子类
+     * 已注册消息监听的子类集合
      */
     ReceiveList: ComponentBase[] = [];
     /**
@@ -50,16 +51,10 @@ export class ManageBase extends ComponentBase {
      */
     ReceiveMessage(message: Message) {
         super.ReceiveMessage(message);
-        if (message.Type === MessageType.Type_view) {
-            console.log("view收到管理中心消息");
-            console.log(this.messageType != message.Type);
-        }
-
 
         if (this.messageType != message.Type) {
             return;
         }
-
         for (const Receive of this.ReceiveList) {
             console.log(Receive);
             Receive.ReceiveMessage(message);

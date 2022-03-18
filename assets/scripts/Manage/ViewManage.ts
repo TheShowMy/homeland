@@ -10,10 +10,6 @@ const { ccclass, property } = _decorator;
 export class ViewManage extends ManageBase{
     private static instance: ViewManage;
     public static getInstance() {
-        if (!this.instance) {
-            this.instance = new ViewManage();
-            return this.instance;
-        }
         return this.instance;
     }
     private constructor() {
@@ -22,6 +18,7 @@ export class ViewManage extends ManageBase{
 
     onLoad(){
         super.onLoad();
+        ViewManage.instance = this;
 
     }
     start(){
