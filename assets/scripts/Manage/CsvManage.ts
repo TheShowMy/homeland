@@ -1,13 +1,12 @@
 
-import { _decorator,  resources ,EventTarget} from 'cc';
-import { Constant } from './Constant';
-import { EventManage } from './EventManage';
+import { _decorator,  resources ,EventTarget, log} from 'cc';
+import { MessageType } from './Constant';
+import { MessageCenter } from './MessageCenter';
 const { ccclass, property } = _decorator;
 
 /**
  * 配置csv文件读取并管理
  */
-const eventManage:EventManage = EventManage.getInstance();
 @ccclass('CsvManage')
 export class ScvManage {
     
@@ -16,7 +15,6 @@ export class ScvManage {
 
     private static instance: ScvManage;
     private constructor() {
-
     };
 
     static getInstance() {
@@ -28,11 +26,12 @@ export class ScvManage {
     }
 
     public startLoad(){
-        //初始化
+        //初始化    
         this.loadCsvData().then((res) => {
             if (res) {
-                
-                eventManage.emitEvent(Constant.eventType.RES_LOAD_END)
+                console.log("scv 加载完成 通知loading界面关闭");
+                MessageCenter.SendCustomMessage(MessageType.Type_view,MessageType.View_loading,false);
+  
             }
         });
     }
