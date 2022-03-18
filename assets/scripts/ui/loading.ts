@@ -17,20 +17,13 @@ export class loading extends ComponentBase {
         
     }
     onLoad(){
-        
- 
+
     }
     start(){
-        console.log("loading页面以添加到管理类");
         ViewManage.getInstance().RegisterReceiver(this);
-        
 
-
-
-        console.log("通知gameManage load页面加载完成");
         MessageCenter.SendCustomMessage(MessageType.Type_game,MessageType.Type_game,"loadEnd");
-        
-        
+          
     }
     
     setActive(isOn:boolean){
@@ -41,6 +34,8 @@ export class loading extends ComponentBase {
         super.ReceiveMessage(message);
         console.log(message);
         if (message.Command === MessageType.View_loading) {
+            console.log(message.Content);
+            
             this.setActive(message.Content)
         }
     }
