@@ -16,17 +16,17 @@ export class selectWord extends ComponentBase {
         const scvManage = ScvManage.getInstance()
 
         const wordLists = scvManage.getCsvDataRow("worldList", 2)
-        // wordLists.forEach((wordName,index,list)=>{
-        // });
         for (let index = 0; index < wordLists.length; index++) {
+            
             const wordName = wordLists[index];
             resources.load("prefab/ui/wordList", Prefab, (err, data) => {
-                let wordList = instantiate(data);
+                let wordListNode = instantiate(data);
                 const contentTransform = this.content.getComponent(UITransform)
                 contentTransform.contentSize.set(contentTransform.contentSize.width, (index + 1) * 90);
-                wordList.getComponent('wordList');
-                
-                wordList.setPosition(0, (index + 1) * -90, 0);
+                wordListNode.setParent(this.content)
+                wordListNode.getComponent(wordList).setLabelNmae(wordName);
+                wordListNode.getComponent(wordList)
+                wordListNode.setPosition(0, (index + 1) * -90, 0);
                 
             });
 

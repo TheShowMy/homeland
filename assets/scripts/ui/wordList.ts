@@ -11,7 +11,7 @@ export class wordList extends ComponentBase {
     @property(Label)
     public lable:Label = null;
 
-    public  (name:string){
+    public setLabelNmae(name:string){
         this.lable.string = name;
     }
 
