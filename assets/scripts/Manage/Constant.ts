@@ -11,6 +11,8 @@ export class MessageType {
 
     public static View_loading = 101;
 
+    public static Game_Role_PlayAnimation  = 1021
+
     public static Csv_load = 301;
 }
 

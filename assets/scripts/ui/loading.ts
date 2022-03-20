@@ -17,10 +17,10 @@ export class loading extends ComponentBase {
         
     }
     onLoad(){
-
+        ViewManage.getInstance().RegisterReceiver(this);
     }
     start(){
-        ViewManage.getInstance().RegisterReceiver(this);
+        
 
         MessageCenter.SendCustomMessage(MessageType.Type_game,MessageType.Type_game,"loadEnd");
           
@@ -32,10 +32,7 @@ export class loading extends ComponentBase {
 
     ReceiveMessage(message:Message){
         super.ReceiveMessage(message);
-        console.log(message);
         if (message.Command === MessageType.View_loading) {
-            console.log(message.Content);
-            
             this.setActive(message.Content)
         }
     }

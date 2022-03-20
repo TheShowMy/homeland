@@ -24,7 +24,6 @@ export class ManageBase extends ComponentBase {
         //设置当前管理类接受的数据类型
         this.messageType = this.setMessageType();
         MessageCenter.Managers.push(this)
-        console.log("消息中心添加了:", this);
 
     }
 
@@ -56,7 +55,6 @@ export class ManageBase extends ComponentBase {
             return;
         }
         for (const Receive of this.ReceiveList) {
-            console.log(Receive);
             Receive.ReceiveMessage(message);
         }
     }

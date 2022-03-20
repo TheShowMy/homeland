@@ -9,19 +9,6 @@ const { ccclass, property } = _decorator;
  
 @ccclass('MessageCenter')
 export class MessageCenter{
-   
-    // private static instance: MessageCenter;
-    // public static getInstance() {
-    //     if (!this.instance) {
-    //         this.instance = new MessageCenter();
-    //         return this.instance;
-    //     }
-    //     return this.instance;
-    // }
-    // private constructor() {
-    // };
-
-
     /**
      * 所有管理类
      */

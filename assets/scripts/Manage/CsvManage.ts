@@ -27,11 +27,7 @@ export class ScvManage {
 
     public startLoad(){
         //初始化    
-        this.loadCsvData().then((res) => {
-            if (res) {
-                MessageCenter.SendCustomMessage(MessageType.Type_view,MessageType.View_loading,false);
-            }
-        });
+        return this.loadCsvData();
     }
 
 
