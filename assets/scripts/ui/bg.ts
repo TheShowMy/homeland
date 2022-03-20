@@ -16,14 +16,15 @@ export class bg extends ComponentBase {
     public box:Node = null;
 
     onLoad(){
-        ViewManage.getInstance().RegisterReceiver(this)
+        ViewManage.getInstance().RegisterReceiver(this);
+        this.portal.on(Node.EventType.MOUSE_UP,this.portalMouseUp,this);
+        this.box.on(Node.EventType.MOUSE_UP,this.boxMouseUp,this);
     }
     
     
 
     start () {
-        this.portal.on(Node.EventType.MOUSE_UP,this.portalMouseUp,this);
-        this.box.on(Node.EventType.MOUSE_UP,this.boxMouseUp,this);
+        
 
     }
     //当鼠标从按下状态松开时触发一次
@@ -32,6 +33,11 @@ export class bg extends ComponentBase {
     }
     boxMouseUp(){
 
+    }
+
+    onDestroy(){
+        this.portal.off(Node.EventType.MOUSE_UP,this.portalMouseUp,this);
+        this.box.off(Node.EventType.MOUSE_UP,this.boxMouseUp,this);
     }
 }
 
