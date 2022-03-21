@@ -8,18 +8,18 @@ const { ccclass, property } = _decorator;
  * 配置csv文件读取并管理
  */
 @ccclass('CsvManage')
-export class ScvManage {
+export class CsvManage {
     
     private tableNames: string[] = [];
     private tableDatas: string[] = [];
 
-    private static instance: ScvManage;
+    private static instance: CsvManage;
     private constructor() {
     };
 
     static getInstance() {
         if (!this.instance) {
-            this.instance = new ScvManage();
+            this.instance = new CsvManage();
             return this.instance;
         }
         return this.instance;
@@ -103,7 +103,7 @@ export class ScvManage {
     public getCsvDataList(tableName: string, list: number): string[] {
         const data: string = this.getCsvDataAll(tableName);
         if (data != null && list != 0) {
-            let dataLists = data.split("\n");
+            let dataLists = data.split("\r\n");
             if (dataLists.length < list) {
                 return null;
             }
@@ -124,7 +124,7 @@ export class ScvManage {
         const data: string = this.getCsvDataAll(tableName);
 
         if (data != null && row != 0) {
-            let dataLists = data.split("\n");
+            let dataLists = data.split("\r\n");
             if (dataLists[0].split(",").length < row) {
                 return null;
             }

@@ -1,5 +1,5 @@
 
-import { _decorator, Component, Node, View, resources, Prefab, instantiate } from 'cc';
+import { _decorator, Component, Node, View, resources, Prefab, instantiate,Animation } from 'cc';
 import { MessageType } from './Constant';
 import { ManageBase } from './ManageBase';
 import { Message } from './Message';
@@ -58,8 +58,19 @@ export class ViewManage extends ManageBase{
                     resources.load("prefab/ui/selectWord",Prefab,(err,data)=>{
                         let selectWord =  instantiate(data);
                         selectWord.setParent(this.UI);
+                        selectWord.getComponent(Animation).defaultClip = selectWord.getComponent(Animation).clips[0];
+                        selectWord.getComponent(Animation).play();
                     });
                 }
+                if(message.Content === "openWareroom"){
+                    resources.load("prefab/ui/Wareroom",Prefab,(err,data)=>{
+                        let Wareroom =  instantiate(data);
+                        Wareroom.setParent(this.UI);
+                        Wareroom.getComponent(Animation).defaultClip = Wareroom.getComponent(Animation).clips[0];
+                        Wareroom.getComponent(Animation).play();
+                    });
+                }
+
                 
       
             }

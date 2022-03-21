@@ -1,7 +1,7 @@
 
-import { _decorator, Component, Node, resources, instantiate, Prefab, UITransform, Sprite, Color } from 'cc';
+import { _decorator, Component, Node, resources, instantiate, Prefab, UITransform, Sprite, Color,Animation } from 'cc';
 import { ComponentBase } from '../Manage/ComponentBase';
-import { ScvManage } from '../Manage/CsvManage';
+import { CsvManage } from '../Manage/CsvManage';
 import { wordList } from './wordList';
 const { ccclass, property } = _decorator;
 
@@ -26,7 +26,7 @@ export class selectWord extends ComponentBase {
         this.boxBg.on(Node.EventType.MOUSE_UP, ()=>{}, this);
     }
     start() {
-        const scvManage = ScvManage.getInstance();
+        const scvManage = CsvManage.getInstance();
 
         this.wordListNodeId = scvManage.getCsvDataRow("worldList", 1);
         const wordLists = scvManage.getCsvDataRow("worldList", 2);
@@ -38,7 +38,7 @@ export class selectWord extends ComponentBase {
                 let wordListNode = instantiate(data);
                 this.wordListNodes.push(wordListNode);
                 const contentTransform = this.content.getComponent(UITransform);
-                contentTransform.contentSize.set(contentTransform.contentSize.width, (index + 1) * 90);
+                contentTransform.contentSize.set(contentTransform.contentSize.width, (index + 1) * 110);
                 wordListNode.setParent(this.content);
                 wordListNode.on(Node.EventType.MOUSE_UP, () => {
                     //let isOn = false;
@@ -67,7 +67,11 @@ export class selectWord extends ComponentBase {
     }
 
     CancelMouseUp() {
-        this.node.destroy();
+        this.node.getComponent(Animation).defaultClip = this.node.getComponent(Animation).clips[1];
+        this.node.getComponent(Animation).play();
+        setTimeout(()=>{
+            this.node.destroy();
+        },500);
     }
     //刷新选择列表
     refreshWordList() {

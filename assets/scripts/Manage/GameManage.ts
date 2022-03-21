@@ -1,7 +1,7 @@
 
 import { _decorator, } from 'cc';
 import { MessageType } from './Constant';
-import { ScvManage } from './CsvManage';
+import { CsvManage } from './CsvManage';
 import { ManageBase } from './ManageBase';
 import { Message } from './Message';
 import { MessageCenter } from './MessageCenter';
@@ -42,7 +42,7 @@ export class GameManage extends ManageBase {
         if (message.Command === MessageType.Type_game) {
             if(message.Content === "loadEnd"){
                 //加载配置文件
-                ScvManage.getInstance().startLoad().then((res) => {
+                CsvManage.getInstance().startLoad().then((res) => {
                     if (res) {
                         MessageCenter.SendCustomMessage(MessageType.Type_view,MessageType.Type_view,"loadBg");
                     }

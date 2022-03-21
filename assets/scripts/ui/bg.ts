@@ -32,7 +32,7 @@ export class bg extends ComponentBase {
         MessageCenter.SendCustomMessage(MessageType.Type_view,MessageType.Type_view,"openSelectWord");
     }
     boxMouseUp(){
-
+        MessageCenter.SendCustomMessage(MessageType.Type_view,MessageType.Type_view,"openWareroom");
     }
 
     onDestroy(){
