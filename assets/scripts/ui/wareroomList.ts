@@ -20,7 +20,7 @@ export class wareroomList extends ComponentBase {
     }
     public setSprite(path:string){
           
-        resources.load(path,SpriteFrame,(err, data) => {
+        resources.load(path + "/spriteFrame",SpriteFrame,(err, data) => {
             console.log(data);
             
             this.sprite.spriteFrame = data;
