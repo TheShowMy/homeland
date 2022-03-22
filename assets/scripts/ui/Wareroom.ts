@@ -34,34 +34,33 @@ export class Wareroom extends ComponentBase {
         let listMax = Math.floor(contentWidth / 90);
         let listWidth = contentWidth / listMax;
         this.content.getComponent(UITransform).contentSize.set(contentWidth, Math.ceil(this.wareroomListMax / listMax) * 90);
-        new Promise((resolve, reject) =>{
-            for (let index = 0; index < this.wareroomListMax; index++) {
-                let listIndex = Math.floor(index / listMax) + 1
+        let promises:Promise<boolean>[] = [];
+        for (let index = 0; index < this.wareroomListMax; index++) {
+            let listIndex = Math.floor(index / listMax) + 1
+            const promise = new Promise<boolean>((resolve, reject) =>{
                 resources.load("prefab/ui/wareroomList", Prefab, (err, data) => {
                     let WareroomListNode = instantiate(data);
                     this.wareroomListArr.push(WareroomListNode);
                     WareroomListNode.setParent(this.content)
                     WareroomListNode.setPosition(listWidth * ((index % listMax) + 1), listIndex * -90, 0);
+                    resolve(true);
                 });
-                if ((this.wareroomListMax-1) === index) {
-                    resolve(true)
-                }
-            }
-        }).then((res)=>{
-            if(res){
-                for (let index = 0; index < itemNames.length; index++) {
-                    const itemName = itemNames[index];
-                    resources.load("prefab/ui/wareroomList1", Prefab, (err, data) => {
-                        let WareroomListNode = instantiate(data);
-                        WareroomListNode.setParent(this.content);
-                        WareroomListNode.setPosition(this.wareroomListArr[index].position);
-                        this.wareroomListArr[index].destroy();
-                        WareroomListNode.getComponent(wareroomList).setLabelName(itemName);
-                        WareroomListNode.getComponent(wareroomList).setSprite(itemIconPaths[index]);
-                        
-                    });
-                    
-                }
+            })
+            promises.push(promise);
+            
+        }
+        Promise.all(promises).then((res)=>{
+            for (let index = 0; index < itemNames.length; index++) {
+                const itemName = itemNames[index];
+                resources.load("prefab/ui/wareroomList1", Prefab, (err, data) => {
+                    console.log(data); 
+                    let WareroomListNode = instantiate(data);  
+                    WareroomListNode.setParent(this.content);
+                    WareroomListNode.setPosition(this.wareroomListArr[index].position);
+                    WareroomListNode.getComponent(wareroomList).setLabelName(itemName);
+                    WareroomListNode.getComponent(wareroomList).setSprite(itemIconPaths[index]);
+                    this.wareroomListArr[index].destroy();
+                });  
             }
         });
         
