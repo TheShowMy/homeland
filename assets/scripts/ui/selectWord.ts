@@ -9,7 +9,7 @@ const { ccclass, property } = _decorator;
 
 @ccclass('selectWord')
 export class selectWord extends ComponentBase {
-
+    number
     @property(Node)
     public content: Node = null;
     @property(Node)

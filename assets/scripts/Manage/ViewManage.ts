@@ -33,50 +33,50 @@ export class ViewManage extends ManageBase{
     }
 
         //重写ReceiveMessage 希望直接在管理类处理有些消息
-        ReceiveMessage(message:Message){
-            if(MessageType.Type_view != message.Type){
+    ReceiveMessage(message:Message){
+        if(MessageType.Type_view != message.Type){
+            return;
+        }
+        if (message.Command === MessageType.Type_view) {
+            
+            if(message.Content === "loadBg"){
+                new Promise((resolve, reject)=>{
+                    resources.load("prefab/ui/bg",Prefab,(err,data)=>{
+                        let bg =  instantiate(data);
+                        bg.setParent(this.UI);
+                        resolve(true);
+                    });
+                }).then((res)=>{
+                    if(res){
+                        MessageCenter.SendCustomMessage(MessageType.Type_view,MessageType.View_loading,false);
+                    }
+                });
+                
                 return;
             }
-            if (message.Command === MessageType.Type_view) {
-                
-                if(message.Content === "loadBg"){
-                    new Promise((resolve, reject)=>{
-                        resources.load("prefab/ui/bg",Prefab,(err,data)=>{
-                            let bg =  instantiate(data);
-                            bg.setParent(this.UI);
-                            resolve(true);
-                        });
-                    }).then((res)=>{
-                        if(res){
-                            MessageCenter.SendCustomMessage(MessageType.Type_view,MessageType.View_loading,false);
-                        }
-                    });
-                    
-                    return;
-                }
-                if(message.Content === "openSelectWord"){
-                    resources.load("prefab/ui/selectWord",Prefab,(err,data)=>{
-                        let selectWord =  instantiate(data);
-                        selectWord.setParent(this.UI);
-                        selectWord.getComponent(Animation).defaultClip = selectWord.getComponent(Animation).clips[0];
-                        selectWord.getComponent(Animation).play();
-                    });
-                }
-                if(message.Content === "openWareroom"){
-                    resources.load("prefab/ui/Wareroom",Prefab,(err,data)=>{
-                        let Wareroom =  instantiate(data);
-                        Wareroom.setParent(this.UI);
-                        Wareroom.getComponent(Animation).defaultClip = Wareroom.getComponent(Animation).clips[0];
-                        Wareroom.getComponent(Animation).play();
-                    });
-                }
-
-                
-      
+            if(message.Content === "openSelectWord"){
+                resources.load("prefab/ui/selectWord",Prefab,(err,data)=>{
+                    let selectWord =  instantiate(data);
+                    selectWord.setParent(this.UI);
+                    selectWord.getComponent(Animation).defaultClip = selectWord.getComponent(Animation).clips[0];
+                    selectWord.getComponent(Animation).play();
+                });
             }
-            super.ReceiveMessage(message);
+            if(message.Content === "openWareroom"){
+                resources.load("prefab/ui/Wareroom",Prefab,(err,data)=>{
+                    let Wareroom =  instantiate(data);
+                    Wareroom.setParent(this.UI);
+                    Wareroom.getComponent(Animation).defaultClip = Wareroom.getComponent(Animation).clips[0];
+                    Wareroom.getComponent(Animation).play();
+                });
+            }
+
+            
     
         }
+        super.ReceiveMessage(message);
+
+    }
 
 }
 

@@ -43,9 +43,9 @@ export class GameManage extends ManageBase {
             if(message.Content === "loadEnd"){
                 //加载配置文件
                 CsvManage.getInstance().startLoad().then((res) => {
-                    if (res) {
-                        MessageCenter.SendCustomMessage(MessageType.Type_view,MessageType.Type_view,"loadBg");
-                    }
+                    
+                    MessageCenter.SendCustomMessage(MessageType.Type_view,MessageType.Type_view,"loadBg");
+                    
                 });
                 return;
             }

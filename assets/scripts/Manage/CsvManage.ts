@@ -56,19 +56,15 @@ export class CsvManage {
         let promises:Promise<boolean>[] = []
         //感觉文件名获取文件里的文本数据
         for (let index = 0; index < ScvPaths.length; index++) {
-            let promise = new Promise<boolean>((resolve, reject) => {
+            const promise = new Promise<boolean>((resolve, reject) => {
                 resources.load(ScvPaths[index], (err, ScvData) => {
                     if (err) {
                         console.log("读取csv文件报错:" + err);
-                        return;
+                        resolve(false)
                     }
                     //将表名和数据分别存放到两个数值中
-                    tableName.push(ScvPaths[index].split("/", 2)[1]);
-                    tableData.push(ScvData["text"]);
-                    if (index === ScvPaths.length - 1) {
-                        this.tableNames = tableName;
-                        this.tableDatas = tableData;  
-                    }
+                    this.tableNames.push(ScvPaths[index].split("/", 2)[1]);
+                    this.tableDatas.push(ScvData["text"]);
                     resolve(true)
                 });
             });

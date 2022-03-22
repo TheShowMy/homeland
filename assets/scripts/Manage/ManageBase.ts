@@ -2,7 +2,7 @@
 import { _decorator, Component, Node } from 'cc';
 import { ComponentBase } from './ComponentBase';
 import { MessageType } from './Constant';
-import { ScvManage } from './CsvManage';
+import { CsvManage } from './CsvManage';
 import { Message } from './Message';
 import { MessageCenter } from './MessageCenter';
 const { ccclass, property } = _decorator;
@@ -54,6 +54,7 @@ export class ManageBase extends ComponentBase {
         if (this.messageType != message.Type) {
             return;
         }
+        console.log(message,this.ReceiveList);
         for (const Receive of this.ReceiveList) {
             Receive.ReceiveMessage(message);
         }
