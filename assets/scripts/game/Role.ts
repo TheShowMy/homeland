@@ -18,6 +18,9 @@ export class Role extends ComponentBase {
     
     start () {
         
+        
+        //console.log(this.node.getComponent(dragonBones.ArmatureDisplay).getAnimationNames(this.node.getComponent(dragonBones.ArmatureDisplay).animationName););
+        
     }
     ReceiveMessage(message:Message){
         super.ReceiveMessage(message);

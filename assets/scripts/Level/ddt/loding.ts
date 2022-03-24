@@ -21,6 +21,9 @@ export class loding extends Component {
         const progressBar = this.lodingProgressBar.getComponent(ProgressBar);
         console.log();
         progressBar.progress += 0.5 * time;
+        if (progressBar.progress >= 1) {
+            this.node.destroy()
+        }
         
     }
 

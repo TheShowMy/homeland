@@ -1,5 +1,5 @@
 
-import { game, _decorator, } from 'cc';
+import { EventKeyboard, EventTouch, game, Input, input, _decorator, } from 'cc';
 import { MessageType } from './Constant';
 import { CsvManage } from './CsvManage';
 import { ManageBase } from './ManageBase';
@@ -19,7 +19,8 @@ export class GameManage extends ManageBase {
     }
     private constructor() {
         super();
-        //game.removePersistRootNode(this.node);
+        
+
     };
     private roleArmsID:string = null;
     onLoad() {
@@ -30,7 +31,10 @@ export class GameManage extends ManageBase {
         return MessageType.Type_game;
     }
     start() {
-
+        game.addPersistRootNode(this.node);
+        input.on(Input.EventType.KEY_DOWN,(event: EventKeyboard)=>{
+            console.log(event);  
+        },this);
 
 
     }
