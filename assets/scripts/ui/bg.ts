@@ -14,11 +14,13 @@ export class bg extends ComponentBase {
     public portal:Node = null;
     @property(Node)
     public box:Node = null;
+    @property(Node)
+    public role: Node = null;
 
     onLoad(){
-        ViewManage.getInstance().RegisterReceiver(this);
         this.portal.on(Node.EventType.MOUSE_UP,this.portalMouseUp,this);
         this.box.on(Node.EventType.MOUSE_UP,this.boxMouseUp,this);
+        this.role.on(Node.EventType.MOUSE_UP,this.roleMouseUp,this);
     }
     
     
@@ -34,10 +36,13 @@ export class bg extends ComponentBase {
     boxMouseUp(){
         MessageCenter.SendCustomMessage(MessageType.Type_view,MessageType.Type_view,"openWareroom");
     }
-
-    onDestroy(){
+    roleMouseUp(){
+        MessageCenter.SendCustomMessage(MessageType.Type_view,MessageType.Type_view,"openRole");
+    }
+    onDisable(){
         this.portal.off(Node.EventType.MOUSE_UP,this.portalMouseUp,this);
         this.box.off(Node.EventType.MOUSE_UP,this.boxMouseUp,this);
+        this.role.off(Node.EventType.MOUSE_UP,this.roleMouseUp,this);
     }
 }
 

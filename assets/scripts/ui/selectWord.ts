@@ -1,7 +1,8 @@
 
-import { _decorator, Component, Node, resources, instantiate, Prefab, UITransform, Sprite, Color,Animation } from 'cc';
+import { _decorator, Component, Node, resources, instantiate, Prefab, UITransform, Sprite, Color, Animation, director } from 'cc';
 import { ComponentBase } from '../Manage/ComponentBase';
 import { CsvManage } from '../Manage/CsvManage';
+import { GameManage } from '../Manage/GameManage';
 import { wordList } from './wordList';
 const { ccclass, property } = _decorator;
 
@@ -23,7 +24,7 @@ export class selectWord extends ComponentBase {
     onLoad() {
         this.Cancel.on(Node.EventType.MOUSE_UP, this.CancelMouseUp, this);
         //防止点到外面的东西
-        this.boxBg.on(Node.EventType.MOUSE_UP, ()=>{}, this);
+        this.boxBg.on(Node.EventType.MOUSE_UP, () => { }, this);
     }
     start() {
         const scvManage = CsvManage.getInstance();
@@ -62,16 +63,30 @@ export class selectWord extends ComponentBase {
     }
 
     enterButton() {
-        console.log("进入" + this.currentWordId);
+        let wordName = CsvManage.getInstance().inquireCsvDataListRow("worldList", 1, this.currentWordId, 2);
+        let wordPath =CsvManage.getInstance().inquireCsvDataListRow("worldList", 1, this.currentWordId, 3);
+        if (GameManage.getInstance().getRoleArmsID() === null) {
+            console.log("没有佩戴武器 确定要前往<<" + wordName + ">> 吗？");
+            console.log("进入" + this.currentWordId);
+            this.loadWord(wordPath);
+        } else {
+            console.log("进入" + this.currentWordId);
+            this.loadWord(wordPath);
+        }
 
+
+    }
+    //加载场景并切换
+    loadWord(path: string) {
+        director.loadScene(path);
     }
 
     CancelMouseUp() {
         this.node.getComponent(Animation).defaultClip = this.node.getComponent(Animation).clips[1];
         this.node.getComponent(Animation).play();
-        setTimeout(()=>{
+        setTimeout(() => {
             this.node.destroy();
-        },500);
+        }, 500);
     }
     //刷新选择列表
     refreshWordList() {
@@ -89,7 +104,7 @@ export class selectWord extends ComponentBase {
 
     onDisable() {
         this.Cancel.off(Node.EventType.MOUSE_UP, this.CancelMouseUp, this);
-        this.boxBg.off(Node.EventType.MOUSE_UP, ()=>{}, this);
+        this.boxBg.off(Node.EventType.MOUSE_UP, () => { }, this);
     }
 
 }

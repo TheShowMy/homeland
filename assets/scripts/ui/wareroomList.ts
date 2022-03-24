@@ -11,7 +11,6 @@ export class wareroomList extends ComponentBase {
     public label: Label = null
     @property(Sprite)
     public sprite: Sprite = null
-
     public wareroomName = null;
     start() {
 

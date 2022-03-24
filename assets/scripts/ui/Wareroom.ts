@@ -4,6 +4,7 @@ import { ComponentBase } from '../Manage/ComponentBase';
 import { MessageType } from '../Manage/Constant';
 import { CsvManage } from '../Manage/CsvManage';
 import { Message } from '../Manage/Message';
+import { MessageCenter } from '../Manage/MessageCenter';
 import { ViewManage } from '../Manage/ViewManage';
 import { articleDetail } from './articleDetail';
 import { wareroomList } from './wareroomList';
@@ -22,7 +23,7 @@ export class Wareroom extends ComponentBase {
     public wareroomListArr: Node[] = [];
     //仓库里文凭的Node
     public articleNodes: Node[] = [];
-    
+
     public isOpenArticleDetailUi = true;
     onLoad() {
         ViewManage.getInstance().RegisterReceiver(this);
@@ -73,16 +74,18 @@ export class Wareroom extends ComponentBase {
                 promises.push(promise);
             }
 
-            Promise.all<boolean>(promises).then((res)=>{
+            Promise.all<boolean>(promises).then((res) => {
                 promises = [];
                 for (const articleNode of this.articleNodes) {
-                    articleNode.on(Node.EventType.MOUSE_UP, ()=>{
-                        resources.load("prefab/ui/articleDetail", Prefab, (err, data) => {
-                            const articleDetailNode = instantiate(data);
-                            articleDetailNode.setParent(this.node.getParent())
-                            articleDetailNode.getComponent(articleDetail).setWareroom(articleNode.getComponent(wareroomList).wareroomName);
-                        });
+                    articleNode.on(Node.EventType.MOUSE_UP, () => {
+                        MessageCenter.SendCustomMessage(MessageType.Type_view,MessageType.View_Article_Detail,articleNode.getComponent(wareroomList).wareroomName);
                         this.isOpenArticleDetailUi = false;
+                        // resources.load("prefab/ui/articleDetail", Prefab, (err, data) => {
+                        //     const articleDetailNode = instantiate(data);
+                        //     articleDetailNode.setParent(this.node.getParent())
+                        //     articleDetailNode.getComponent(articleDetail).setWareroom(articleNode.getComponent(wareroomList).wareroomName);
+                        // });
+                        
                     });
                 }
 
@@ -96,20 +99,21 @@ export class Wareroom extends ComponentBase {
     qxButton() {
         if (this.isOpenArticleDetailUi) {
             this.node.getComponent(Animation).defaultClip = this.node.getComponent(Animation).clips[1];
-        this.node.getComponent(Animation).play();
-        setTimeout(() => {
-            this.node.destroy();
-        }, 500);
+            this.node.getComponent(Animation).play();
+            ViewManage.getInstance().LogoutRecipient(this);
+            setTimeout(() => {
+                this.node.destroy();
+            }, 500);
         }
 
     }
 
-
-    ReceiveMessage(message:Message){
+    //详细界面关闭后   打开设置仓库的按钮可以点击
+    ReceiveMessage(message: Message) {
         if (message.Command = MessageType.View_Wareroom_button) {
             this.isOpenArticleDetailUi = message.Content;
         }
-        
+
     }
 
 }

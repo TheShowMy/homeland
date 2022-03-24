@@ -42,7 +42,18 @@ export class ManageBase extends ComponentBase {
      */
     RegisterReceiver(cb: ComponentBase) {
         this.ReceiveList.push(cb);
-
+    }
+    /**
+     * 注销监听
+     * @param cb 
+     */
+    LogoutRecipient(cb: ComponentBase){
+        for (let index = 0; index < this.ReceiveList.length; index++) {
+            if(this.ReceiveList[index] === cb){
+                this.ReceiveList.splice(index,1);
+            }
+            
+        }
     }
     /**
      * 接受消息并向子类广播这条消息
@@ -54,7 +65,6 @@ export class ManageBase extends ComponentBase {
         if (this.messageType != message.Type) {
             return;
         }
-        console.log(message,this.ReceiveList);
         for (const Receive of this.ReceiveList) {
             Receive.ReceiveMessage(message);
         }
