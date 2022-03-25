@@ -9,7 +9,7 @@
     "collisionGroups": [
       {
         "index": 1,
-        "name": "BULLET"
+        "name": "ROLE"
       },
       {
         "index": 2,

@@ -1,5 +1,5 @@
 
-import { _decorator, Component, Node, UITransform, resources, Prefab, instantiate, Animation, LightComponent } from 'cc';
+import { _decorator, Component, Node, UITransform, resources, Prefab, instantiate, Animation, LightComponent, Layers, Layout } from 'cc';
 import { ComponentBase } from '../Manage/ComponentBase';
 import { MessageType } from '../Manage/Constant';
 import { CsvManage } from '../Manage/CsvManage';
@@ -23,7 +23,6 @@ export class Wareroom extends ComponentBase {
     public wareroomListArr: Node[] = [];
     //仓库里文凭的Node
     public articleNodes: Node[] = [];
-
     public isOpenArticleDetailUi = true;
     onLoad() {
         ViewManage.getInstance().RegisterReceiver(this);

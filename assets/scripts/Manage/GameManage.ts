@@ -32,9 +32,6 @@ export class GameManage extends ManageBase {
     }
     start() {
         game.addPersistRootNode(this.node);
-        input.on(Input.EventType.KEY_DOWN,(event: EventKeyboard)=>{
-            console.log(event);  
-        },this);
 
 
     }
