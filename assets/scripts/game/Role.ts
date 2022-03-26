@@ -1,36 +1,30 @@
 
-import { dragonBones, SkelAnimDataHub, _decorator } from 'cc';
+import { _decorator, Collider2D, Node, IPhysics2DContact, RigidBody2D, Contact2DType ,PolygonCollider2D } from 'cc';
 import { ComponentBase } from '../Manage/ComponentBase';
-import { MessageType } from '../Manage/Constant';
-import { GameManage } from '../Manage/GameManage';
-import { Message } from '../Manage/Message';
 const { ccclass, property } = _decorator;
 
 
- 
 @ccclass('Role')
 export class Role extends ComponentBase {
 
+    @property(Node)
+    public arms: Node = null;
 
     onLoad(){
-        GameManage.getInstance().RegisterReceiver(this);
+        this.arms.getComponent(PolygonCollider2D).on(Contact2DType.BEGIN_CONTACT, this.onBeginContact, this);
     }
-    
-    start () {
-        
-        
-        //console.log(this.node.getComponent(dragonBones.ArmatureDisplay).getAnimationNames(this.node.getComponent(dragonBones.ArmatureDisplay).animationName););
+
+    onBeginContact(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null){
+        console.log("----------");
         
     }
-    ReceiveMessage(message:Message){
-        super.ReceiveMessage(message);
-        if (message.Command === MessageType.Game_Role_PlayAnimation) {
-            const Display = this.node.getComponent(dragonBones.ArmatureDisplay);
-            Display.playAnimation("Idle",0);
-  
-        }
-        
+    start() {
+
     }
-    
+    setArmsCollision(isOn: boolean) {
+        this.arms.getComponent(RigidBody2D).enabledContactListener = isOn;
+    }
+
+
 }
 
