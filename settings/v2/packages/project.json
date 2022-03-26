@@ -14,12 +14,22 @@
       {
         "index": 2,
         "name": "STATIC"
+      },
+      {
+        "index": 3,
+        "name": "ROLE_ARMS"
+      },
+      {
+        "index": 4,
+        "name": "MONSTER"
       }
     ],
     "collisionMatrix": {
       "0": 1,
       "1": 4,
-      "2": 2
+      "2": 18,
+      "3": 16,
+      "4": 12
     }
   }
 }

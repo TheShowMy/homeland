@@ -1,5 +1,6 @@
 
 import { _decorator, Component, Node, input, Input, EventKeyboard, Prefab, resources, instantiate, KeyCode, PolygonCollider2D, IPhysics2DContact, Contact2DType, Collider2D, RigidBody, RigidBody2D, Vec2, Vec3, dragonBones } from 'cc';
+import { Role } from './Role';
 const { ccclass, property } = _decorator;
 
 
@@ -49,7 +50,6 @@ export class game extends Component {
                 input.on(Input.EventType.KEY_UP, this.KeyPressing, this);
                 input.on(Input.EventType.KEY_DOWN, this.KeyDown, this);
                 this.RoleDragonBones.addEventListener(dragonBones.EventObject.COMPLETE, this.OnCallAnimationPlayComplete, this);
-                dragonBones.EventObject.FRAME_EVENT
                 this.isLoadEnd = res;
             }
         });
@@ -58,8 +58,6 @@ export class game extends Component {
     }
 
     onBeginContact(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
-        console.log("----");
-        
     }
 
     KeyPressing(event: EventKeyboard) {
@@ -104,6 +102,7 @@ export class game extends Component {
                             }else{
                                 this.MovingDistance = 0;
                                 this.RoleDragonBones.playAnimation("Attack", 1);
+                                this.Role.getComponent(Role).setArmsCollision(true);
                                 this.isPlay = true;
                             }
                         } 
@@ -122,6 +121,7 @@ export class game extends Component {
         if(this.isDoubleHit){
             if (event.type === dragonBones.EventObject.COMPLETE) {
                 this.RoleDragonBones.playAnimation("Skill", 1);
+                this.Role.getComponent(Role).setArmsCollision(true);
                 this.isDoubleHit = false;
             }
         }else{
@@ -133,7 +133,6 @@ export class game extends Component {
                 this.RoleDragonBones.playAnimation("Idle", 0);
                 this.isPlay = false;
                 this.isDoubleHitStrt = false;
-                
                 console.log("播放完毕");
             }
         }

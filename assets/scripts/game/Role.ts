@@ -1,5 +1,6 @@
 
 import { _decorator, Collider2D, Node, IPhysics2DContact, RigidBody2D, Contact2DType ,PolygonCollider2D } from 'cc';
+import { MonsterSKXoer } from '../Level/ddt/MonsterSKXoer';
 import { ComponentBase } from '../Manage/ComponentBase';
 const { ccclass, property } = _decorator;
 
@@ -15,8 +16,10 @@ export class Role extends ComponentBase {
     }
 
     onBeginContact(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null){
-        console.log("----------");
+        let SKXore = otherCollider.node.getComponent(MonsterSKXoer);
+        SKXore.setHP(SKXore.getHP() - 0.1);
         
+        this.setArmsCollision(false);
     }
     start() {
 
