@@ -23,8 +23,6 @@ export class articleDetail extends ComponentBase {
             MessageCenter.SendCustomMessage(MessageType.Type_view, MessageType.View_Wareroom_button, true);
             this.node.destroy();
         }, this);
-
-
     }
     start() {
 

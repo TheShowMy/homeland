@@ -1,9 +1,8 @@
 
-import { _decorator, Component, Node } from 'cc';
-import { ComponentBase } from './ComponentBase';
+import { _decorator } from 'cc';
 import { ManageBase } from './ManageBase';
 import { Message } from './Message';
-const { ccclass, property } = _decorator;
+const { ccclass } = _decorator;
 
 
  

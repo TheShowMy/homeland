@@ -24,7 +24,6 @@ export class ManageBase extends ComponentBase {
         //设置当前管理类接受的数据类型
         this.messageType = this.setMessageType();
         MessageCenter.Managers.push(this)
-
     }
 
 
