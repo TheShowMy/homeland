@@ -32,8 +32,6 @@ export class GameManage extends ManageBase {
     }
     start() {
         game.addPersistRootNode(this.node);
-
-
     }
     //重写ReceiveMessage 希望直接在管理类处理有些消息
     ReceiveMessage(message: Message) {
